@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: opentripplanner-data-container-vsh
+  name: opentripplanner-data-container
   labels:
-    app: opentripplanner-data-container-vsh
+    app: opentripplanner-data-container
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: opentripplanner-data-container-vsh
+      app: opentripplanner-data-container
   template:
     metadata:
       labels:
-        app: opentripplanner-data-container-vsh
+        app: opentripplanner-data-container
     spec:
       containers:
-      - name: opentripplanner-data-container-vsh
-        image: verschwoerhaus/opentripplanner-data-container-vsh:2019-10-28-latest
+      - name: opentripplanner-data-container
+        image: beckberry/opentripplanner-data-container-hb:latest
         imagePullPolicy: "Always"
         ports:
         - containerPort: 8080
@@ -45,9 +45,9 @@ spec:
         - containerPort: 8080
         env:
         - name: ROUTER_NAME
-          value: vsh
+          value: hb
         - name: ROUTER_DATA_CONTAINER_URL
-          value: http://opentripplanner-data-con-vsh:8080
+          value: http://opentripplanner-data-con-hb:8080
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -67,13 +67,13 @@ spec:
     spec:
       containers:
       - name: digitransit-ui
-        image: verschwoerhaus/digitransit-ui:1172406
+        image: meromisi/digitransit-ui-hb:latest
         imagePullPolicy: "Always"
         ports:
         - containerPort: 8080
         env:
         - name: CONFIG
-          value: vsh
+          value: hb
         - name: OTP_URL
           value: "https://api.digitransit.im.verschwoerhaus.de/routing/v1/routers/vsh/"
         - name: GEOCODING_BASE_URL
@@ -102,13 +102,13 @@ spec:
     spec:
       containers:
       - name: hsl-map-server
-        image: verschwoerhaus/hsl-map-server:b4adf23
+        image: transportkollektiv/hsl-map-server:hb
         imagePullPolicy: "Always"
         ports:
         - containerPort: 8080
         env:
         - name: OTP_URL
-          value: opentripplanner-vsh:8080/otp/routers/vsh/index/graphql
+          value: opentripplanner-hb:8080/otp/routers/hb/index/graphql
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -128,13 +128,13 @@ spec:
     spec:
       containers:
       - name: graphiql
-        image: verschwoerhaus/graphiql:2019-10-30
+        image: verschwoerhaus/graphiql:2019-10-30 # :latest is tested too
         imagePullPolicy: "Always"
         ports:
         - containerPort: 8080
         env:
         - name: URL_PREFIX
-          value: https://api.digitransit.im.verschwoerhaus.de
+          value: https://api.mobil-in-herrenberg.de
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -180,7 +180,7 @@ spec:
     spec:
       containers:
       - name: digitransit-proxy
-        image: verschwoerhaus/digitransit-proxy-vsh:01671d2
+        image: verschwoerhaus/digitransit-proxy-hb:hb
         imagePullPolicy: "Always"
         ports:
         - containerPort: 8080
