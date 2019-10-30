@@ -55,7 +55,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: digitransit-ui-vsh
+  name: digitransit-ui
 spec:
   selector:
     app: digitransit-ui
@@ -68,10 +68,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: opentripplanner-data-con-vsh
+  name: opentripplanner-data-con
 spec:
   selector:
-    app: opentripplanner-data-container-vsh
+    app: opentripplanner-data-container
   ports:
   - name: http
     protocol: TCP
@@ -81,7 +81,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: opentripplanner-vsh
+  name: opentripplanner
 spec:
   selector:
     app: opentripplanner
