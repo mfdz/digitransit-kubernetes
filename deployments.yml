@@ -67,7 +67,7 @@ spec:
     spec:
       containers:
       - name: digitransit-ui
-        image: meromisi/digitransit-ui-hb:wols
+        image: meromisi/digitransit-ui-hb:test
         imagePullPolicy: "Always"
         ports:
         - containerPort: 8080
