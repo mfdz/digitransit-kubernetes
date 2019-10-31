@@ -67,17 +67,13 @@ spec:
     spec:
       containers:
       - name: digitransit-ui
-        image: meromisi/digitransit-ui-hb:latest
+        image: meromisi/digitransit-ui-hb:wols
         imagePullPolicy: "Always"
         ports:
         - containerPort: 8080
         env:
         - name: CONFIG
           value: hb
-        - name: OTP_URL
-          value: "https://api.digitransit.im.verschwoerhaus.de/routing/v1/routers/vsh/"
-        - name: GEOCODING_BASE_URL
-          value: "https://api.digitransit.im.verschwoerhaus.de/geocoding/v1"
         #- name: LOCATIONIQ_API_KEY
         #  valueFrom:
         #    secretKeyRef:
@@ -180,7 +176,7 @@ spec:
     spec:
       containers:
       - name: digitransit-proxy
-        image: verschwoerhaus/digitransit-proxy-hb:hb
+        image: transportkollektiv/digitransit-proxy:hb
         imagePullPolicy: "Always"
         ports:
         - containerPort: 8080

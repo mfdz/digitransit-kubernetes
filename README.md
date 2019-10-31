@@ -7,5 +7,5 @@
 ## Run
 1. `oc cluster up`
 2. `oc new-project <project name>`
-3. `oc create -f all.yml`
+3. `oc create -f services.yml,deployments.yml `
 4. `oc status`

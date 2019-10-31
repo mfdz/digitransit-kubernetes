@@ -1,3 +1,6 @@
 secret.yml
 .idea
 .vscode
+openshift.local.clusterup
+openshift.local.config
+openshift.local.etcd
