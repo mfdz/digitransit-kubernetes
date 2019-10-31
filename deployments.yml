@@ -1,0 +1,186 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: opentripplanner-data-container
+  labels:
+    app: opentripplanner-data-container
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: opentripplanner-data-container
+  template:
+    metadata:
+      labels:
+        app: opentripplanner-data-container
+    spec:
+      containers:
+      - name: opentripplanner-data-container
+        image: beckberry/opentripplanner-data-container-hb:latest
+        imagePullPolicy: "Always"
+        ports:
+        - containerPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: opentripplanner
+  labels:
+    app: opentripplanner
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: opentripplanner
+  template:
+    metadata:
+      labels:
+        app: opentripplanner
+    spec:
+      containers:
+      - name: opentripplanner
+        image: hsldevcom/opentripplanner:a0c7971f62251a3a1070652a3895c628557e1b62
+        imagePullPolicy: "Always"
+        ports:
+        - containerPort: 8080
+        env:
+        - name: ROUTER_NAME
+          value: hb
+        - name: ROUTER_DATA_CONTAINER_URL
+          value: http://opentripplanner-data-con-hb:8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: digitransit-ui
+  labels:
+    app: digitransit-ui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: digitransit-ui
+  template:
+    metadata:
+      labels:
+        app: digitransit-ui
+    spec:
+      containers:
+      - name: digitransit-ui
+        image: meromisi/digitransit-ui-hb:latest
+        imagePullPolicy: "Always"
+        ports:
+        - containerPort: 8080
+        env:
+        - name: CONFIG
+          value: hb
+        - name: OTP_URL
+          value: "https://api.digitransit.im.verschwoerhaus.de/routing/v1/routers/vsh/"
+        - name: GEOCODING_BASE_URL
+          value: "https://api.digitransit.im.verschwoerhaus.de/geocoding/v1"
+        #- name: LOCATIONIQ_API_KEY
+        #  valueFrom:
+        #    secretKeyRef:
+        #      name: digitransit-ui
+        #      key: LOCATIONIQ_API_KEY
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hsl-map-server
+  labels:
+    app: hsl-map-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hsl-map-server
+  template:
+    metadata:
+      labels:
+        app: hsl-map-server
+    spec:
+      containers:
+      - name: hsl-map-server
+        image: transportkollektiv/hsl-map-server:hb
+        imagePullPolicy: "Always"
+        ports:
+        - containerPort: 8080
+        env:
+        - name: OTP_URL
+          value: opentripplanner-hb:8080/otp/routers/hb/index/graphql
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: graphiql
+  labels:
+    app: graphiql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: graphiql
+  template:
+    metadata:
+      labels:
+        app: graphiql
+    spec:
+      containers:
+      - name: graphiql
+        image: verschwoerhaus/graphiql:2019-10-30 # :latest is tested too
+        imagePullPolicy: "Always"
+        ports:
+        - containerPort: 8080
+        env:
+        - name: URL_PREFIX
+          value: https://api.mobil-in-herrenberg.de
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: photon-pelias-adapter
+  labels:
+    app: photon-pelias-adapter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: photon-pelias-adapter
+  template:
+    metadata:
+      labels:
+        app: photon-pelias-adapter
+    spec:
+      containers:
+      - name: photon-pelias-adapter
+        image: stadtulm/photon-pelias-adapter:5903fc0
+        imagePullPolicy: "Always"
+        ports:
+        - containerPort: 8080
+        env:
+        - name: PHOTON_URL
+          value: https://api.mfdz.de/photon/
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: digitransit-proxy
+  labels:
+    app: digitransit-proxy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: digitransit-proxy
+  template:
+    metadata:
+      labels:
+        app: digitransit-proxy
+    spec:
+      containers:
+      - name: digitransit-proxy
+        image: verschwoerhaus/digitransit-proxy-hb:hb
+        imagePullPolicy: "Always"
+        ports:
+        - containerPort: 8080
