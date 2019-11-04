@@ -74,6 +74,8 @@ spec:
         env:
         - name: CONFIG
           value: hb
+        - name: GEOJSON_LAYERS_BASE_URL
+          value: /routing-data/v2/hb/
         #- name: LOCATIONIQ_API_KEY
         #  valueFrom:
         #    secretKeyRef:
