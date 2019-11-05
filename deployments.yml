@@ -16,10 +16,13 @@ spec:
     spec:
       containers:
       - name: opentripplanner-data-container
-        image: beckberry/opentripplanner-data-container-hb:latest
+        image: beckberry/opentripplanner-data-container-hb:test
         imagePullPolicy: "Always"
         ports:
         - containerPort: 8080
+        env:
+          - name: ENV_BBOX
+            value: 48.51592209023528,8.533287048339844,48.72607645125842,9.036598205566406
 ---
 apiVersion: apps/v1
 kind: Deployment
