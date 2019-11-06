@@ -79,6 +79,12 @@ spec:
           value: hb
         - name: GEOJSON_LAYERS_BASE_URL
           value: /routing-data/v2/hb/
+        - name: MAP_URL
+          value: https://maps.wikimedia.org/osm-intl/
+        - name: OTP_URL
+          value: https://api.mobil-in-herrenberg.de/routing/v1/routers/hb/
+        - name: GEOCODING_BASE_URL
+          value: https://pelias.locationiq.org/v1
         #- name: LOCATIONIQ_API_KEY
         #  valueFrom:
         #    secretKeyRef:
