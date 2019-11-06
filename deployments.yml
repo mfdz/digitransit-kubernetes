@@ -21,8 +21,10 @@ spec:
         ports:
         - containerPort: 8080
         env:
-          - name: ENV_BBOX
-            value: 48.51592209023528,8.533287048339844,48.72607645125842,9.036598205566406
+        - name: ENV_BBOX
+          value: 48.51592209023528,8.533287048339844,48.72607645125842,9.036598205566406
+        - name: ENV_DDIR
+          value: router-hb/
 ---
 apiVersion: apps/v1
 kind: Deployment
